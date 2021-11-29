@@ -5,12 +5,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Login Page</title>
+  <title>Register Page</title>
   <link href="https://fonts.googleapis.com/css?family=Karla:400,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.8.95/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="{% static 'css/register.css' %}">
-  <link rel="stylesheet" href="{% static 'css/login.css' %}">
+  <link rel="stylesheet" href="{% static 'css/register/register.css' %}">
 </head>
 <body>
   <main class="d-flex align-items-center min-vh-100 py-3 py-md-0">
@@ -25,7 +24,7 @@
               <div class="brand-wrapper">
                 <h1>BloodLine</h1>
               </div>
-              <p class="login-card-description">Sign into your account</p>
+              <p class="login-card-description">Make your account</p>
               <form action="" method="POST" id="loginform">
                 {% csrf_token %}
                   <div class="form-group">
@@ -43,8 +42,8 @@
                   {% for message in messages %}
                   <h3>{{message}}</h3>
                   {% endfor %}
-               </div>
-                <a href="/password_reset/" class="forgot-password-link">Forgot password?</a><br><br>
+              </div>
+                <a href="/login/" class="forgot-password-link">Already have an account?</a><br><br>
 
           
                 <br>

@@ -5,46 +5,44 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Login Page</title>
+  <title>Register Page</title>
   <link href="https://fonts.googleapis.com/css?family=Karla:400,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.8.95/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="{% static 'css/register.css' %}">
-  <link rel="stylesheet" href="{% static 'css/login.css' %}">
+  <link rel="stylesheet" href="{% static 'css/register/register.css' %}">
 </head>
 <body>
   <main class="d-flex align-items-center min-vh-100 py-3 py-md-0">
     <div class="container">
-      <div class="card login-card">
+      <div class="card register-card">
         <div class="row no-gutters">
           <div class="col-md-5">
-            <img src="{% static 'images/hospital-management.jpg' %}" alt="login" class="login-card-img">
+            <img src="{% static 'images/hospital-management.jpg' %}" alt="register" class="register-card-img">
           </div>
           <div class="col-md-7">
             <div class="card-body">
               <div class="brand-wrapper">
                 <h1>BloodLine</h1>
               </div>
-              <p class="login-card-description">Sign into your account</p>
-              <form action="" method="POST" id="loginform">
+              <p class="register-card-description">Make your account</p>
+              <form action="" method="POST" id="registerform">
                 {% csrf_token %}
                   <div class="form-group">
-                    <label for="user_id" class="sr-only">UserID</label>
-                    <input type="text" name="user_id" id="user_id" class="form-control" placeholder="Enter your user ID">
+                    <input type="radio" name="" id="person-acc">
+                    <label for="person-acc">Person</label>
                   </div>
-                  <div class="form-group mb-4">
-                    <label for="password" class="sr-only">Password</label>
-                    <input type="password" name="password" id="password" class="form-control" placeholder="***********">
+                  <div class="form-group">
+                    <input type="radio" name="" id="org-acc">
+                    <label for="org-acc">Organisation</label>
                   </div>
-                  <button type="submit" form="loginform" value="Submit" class="btn btn-block login-btn mb-4">Login</button>
-                  
+                  <button type="submit" form="registerform" value="Submit" class="btn btn-block register-btn mb-4">Next</button>
                 </form>
                 <div id="ErrorMessage">
                   {% for message in messages %}
                   <h3>{{message}}</h3>
                   {% endfor %}
-               </div>
-                <a href="/password_reset/" class="forgot-password-link">Forgot password?</a><br><br>
+              </div>
+                <a href="/login/" class="forgot-password-link">Already have an account?</a><br><br>
 
           
                 <br>
@@ -58,5 +56,9 @@
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+  <script> 
+    
+  </script>
 </body>
 </html>

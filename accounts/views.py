@@ -41,8 +41,13 @@ def login(request):
                 return redirect('login')
         else:
             return render(request,'accounts/login.html')
-        
-        
+
+def register(request):
+    if request.user.is_authenticated:
+        return redirect('/')
+    else:
+        return render(request, 'accounts/register/register.html')
+
 def logout(request):
     auth.logout(request)
     return redirect('login')
