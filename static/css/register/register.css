@@ -93,4 +93,17 @@ body {
   padding: 10px;
   color: #f57388;
   gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.r-btn:checked + .form-group{
+  color: #fff;
+  background-color: #f57388;
+}
+
+.container input[type=radio]:checked{
+  color: #fff;
+  background-color: #f57388;
+  border: #f57388;
 }

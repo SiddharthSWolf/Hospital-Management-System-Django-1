@@ -83,7 +83,7 @@ def profile(request):
     
 
 #Registering staff user
-@login_required(login_url='/login')
+#@login_required(login_url='/login')
 def register_staff(request):
     if request.method == 'POST':
         if request.user.groups.filter(name="administrative_staff_user").exists():
@@ -163,13 +163,12 @@ def register_staff(request):
             return HttpResponse("You do not have access to this submit this form")
         
     else:
-        if request.user.groups.filter(name="administrative_staff_user").exists():
-            return render(request, 'accounts\AS-reg.html')
-        
+        if request.user.is_authenticated:
+            return redirect('/')
         else:
-            return HttpResponse("You do not have access to this page")
+            return render(request, 'accounts\AS-reg.html')
 
-@login_required(login_url='/login')
+#@login_required(login_url='/login')
 def register_patient(request):
     if request.method == 'POST':
         if request.user.groups.filter(name="administrative_staff_user").exists():
@@ -243,12 +242,13 @@ def register_patient(request):
             return HttpResponse("You do not have access to this submit this form")
         
     else:
-        if request.user.groups.filter(name="administrative_staff_user").exists():
-            return render(request, 'accounts\Patient-reg.html')
-        
+        if request.user.is_authenticated:
+            return redirect('/')
         else:
-            return HttpResponse("You do not have access to this page")
-@login_required(login_url='/login')
+            return render(request, 'accounts\Patient-reg.html')
+
+
+#@login_required(login_url='/login')
 def register_doctor(request):
     if request.method == 'POST':
         if request.user.groups.filter(name="administrative_staff_user").exists():
@@ -326,11 +326,7 @@ def register_doctor(request):
             return HttpResponse("You do not have access to this submit this form")
         
     else:
-        if request.user.groups.filter(name="administrative_staff_user").exists():
-            return render(request, 'accounts\Doc-reg.html')
-        
-        else:
-            return HttpResponse("You do not have access to this page")
+        return render(request, 'accounts\Doc-reg.html')
         
 
 def activate(request, uidb64, token, backend='django.contrib.auth.backends.ModelBackend'):
