@@ -326,7 +326,10 @@ def register_doctor(request):
             return HttpResponse("You do not have access to this submit this form")
         
     else:
-        return render(request, 'accounts\Doc-reg.html')
+        if request.user.is_authenticated:
+            return redirect('/')
+        else:
+            return render(request, 'accounts\Doc-reg.html')
         
 
 def activate(request, uidb64, token, backend='django.contrib.auth.backends.ModelBackend'):
