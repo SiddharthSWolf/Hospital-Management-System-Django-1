@@ -1,8 +1,9 @@
 {% load static %}
 <!DOCTYPE html>
+
 <html>
    <head>
-      <title>Team 10</title>
+      <title>Team 4</title>
       <link rel="stylesheet" href="{% static 'css/style.css' %}">
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" >
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -12,7 +13,6 @@
     </head>
    <body>
         <!--Navigation Bar-->
-
         <section id="navigation-bar">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <a class="navbar-brand" href="#"><img src="{% static 'images/logo.jpeg' %}"></a>
@@ -25,151 +25,127 @@
                         <a class="nav-link" href="/">Home</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="/profile">Profile</a>
+                        <a class="nav-link" href="/donor_profile/">Profile</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="/register-patient/">Patient-registration</a>
+                        <a class="nav-link" href="/patient_book_appointment">Book Appointment</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/register-doctor/">Doctor-registration</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/register-staff/">AS-registration</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/staff_book_appointment">Book Appiontments</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/cancel_appointment_staff">Cancel Appiontments</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/edit-profiles">Edit Profiles</a>
+                        <a class="nav-link" href="/appointment_booked_patient">View Appointment</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/logout">Logout</a>
                     </li>
+                    <!--
+                    <li class="nav-item">
+                        <a class="nav-link" href="/patient-diagnosis">View Diagnosis</a>
+                    </li>
+                    -->
                 </ul>
             </div>
             </nav>
         </section>
         <!--Get in touch-->
-
-        
-
         <section id="contact">
             <div class="container">
-                <div class="row">
-                    <div class="col-md-6">
-                        <h2>Patient Registration</h2>
-                    </div>
-                </div>
                 <div id="ErrorMessage">
                     {% for message in messages %}
                     <h3>{{message}}</h3>
                     {% endfor %}
                  </div>
-                <form class="patient-register-form" action = "edit-profiles" method="POST" id="patient-edit-profile" enctype="multipart/form-data">
+                 <h2>Donor Profile</h2>
+                 <form class="contact-form">
                 <div class="row">
                     <div class="col-md-6">
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="first_name" placeholder="First Name" value="{{user.first_name}}" >
-                             </div>
-                             <div class="form-group">
-                                <input type="text" class="form-control" name="last_name" placeholder="Last Name" value="{{user.last_name}}" >
-                             </div>
-                             <div class="form-group">
-                                <label for="date_of_birth">Date of Birth : {{patient_details.date_of_birth}}</label>
-                                <input  name="date_of_birth" class = "form-control" type = "date" onfocus = "(this.type = 'date')" value="{{patient_details.date_of_birth}}">
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="blood_group" placeholder="Blood-Group" value="{{patient_details.blood_group}}">
-                            </div>
-                            <div class="form-group">
-                                <input type="number" class="form-control" name="age" placeholder="Age" value="{{patient_details.age}}">
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="gender" placeholder="Gender" value="{{patient_details.gender}}">
-                            </div>
-                            <div class="form-group">
-                                <input type="email" class="form-control" name="email" placeholder="Email ID" value="{{user.email}}" readonly>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="contact_number" placeholder="Contact number" value="{{patient_details.phone_number}}">
-                            </div>  
                         
-                    </div>
-                    <div class="col-md-6 contact info">
-                            <div class="form-group">
-                                <label for="img">Select Profile Photo:</label>
-                                {% if patient_details.profile_picture %}
-                                <img src="{{patient_details.profile_picture.url}}" width="200" height="150" alt="You should have seen your picture here">
-                                {% endif %}
-                                <input type="file" id="img" name="image" accept="image/*">
-                            </div> 
-                            <div class="form-group">
-                                <label for="accepted_date">Accepted Date : {{patient_details.accepted_date}}</label>
-                                <input name="accepted_date" class = "form-control" type = "date" onfocus = "(this.type = 'date')" value="{{patient_details.accepted_date}}">
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="diagnosis" placeholder="Diagnosis" value="{{patient_details.diagnosis}}">
-                            </div>
-                            
-                            <div class="form-group">
-                                <textarea class="form-control" rows="3" name="address" placeholder="Address">{{patient_details.address}}</textarea>
-                            </div>
-                        
-                            <div class="col-md-6 contact info">
-                                
-                                <button type="submit" form="patient-edit-profile" class="btn btn-primary">Edit Patient Profile</button>
-
-                            </div>
-                        
-                    </div>
+                        <div class="form-group">
+                           <input type="text" class="form-control" placeholder="Name" value="{{patient_details.patient_full_name}}" disabled>
+                        </div>
+                        <div class="form-group">
+                           <input placeholder = "Date of Birth" class = "form-control" value="{{patient_details.date_of_birth}}" type = "text" onfocus = "(this.type = 'date')"  id = "date" disabled>
+                       </div>
+                       <div class="form-group">
+                           <input type="text" class="form-control" placeholder="Staff ID" value="{{patient_details.patient_id}}" disabled>
+                       </div>
+                       <div class="form-group">
+                           <input type="text" class="form-control" placeholder="Blood-Group" value="{{patient_details.blood_group}}" disabled>
+                       </div>
+                       <div class="form-group">
+                           <input type="number" class="form-control" placeholder="Age" value="{{patient_details.age}}" disabled>
+                       </div>
+                       <div class="form-group">
+                           <input type="number" class="form-control" placeholder="Age" value="{{patient_details.gender}}" disabled>
+                       </div>
+                       <div class="form-group">
+                           <input type="text" class="form-control" placeholder="Diagnosis" value="{{patient_details.diagnosis}}" disabled>
+                       </div>
+                       
+                       
+                       <div class="form-group">
+                           <input placeholder = "Date of Joining" class = "form-control" value="{{patient_details.accepted_date}}" type = "text" onfocus = "(this.type = 'date')"  id = "date" disabled>
+                       </div>
+                   
+               </div>
+               <div class="col-md-6 contact info">
+                   
+                {% if patient_details.profile_picture %}
+                <div classs="form-group">
+                <img src="{{patient_details.profile_picture.url}}" width="200" height="150" alt="You should have seen your picture here">
+                </div>
+                {% endif %}
+                       <div class="form-group">
+                           <input type="email" class="form-control" placeholder="Email ID" value="{{user.email}}" disabled>
+                       </div>
+                       <div class="form-group">
+                           <input type="text" class="form-control" placeholder="Contact number" value="{{patient_details.phone_number}}" disabled>
+                       </div> 
+                       <div class="form-group">
+                           <textarea class="form-control" rows="3" placeholder="Address"  disabled>{{patient_details.address}}</textarea>
+                       </div>
+                   
+               </div>
                 </div>
             </form>
             </div>
         </section>
-        <footer>
-            <div class="footer">
-                <div class="container">   
-                    <div class="row">
-                        <div class="footer-col-1">
-                            <h3>Download our app</h3>
-                            <p>Download App for Android and IOS.</p>
-                            <div class="app-logo">
-                                <img src="{% static 'images/play-store.jpeg' %}">
-                                <img src="{% static 'images/app-store.jpeg' %}">
-                            </div>
-                        </div>
-                        <div class="footer-col-2">
-                            <img src="{% static 'images/logo.jpeg' %}">
-                            <p>Our purpose is to sustainably make the Accessability and Affordability of Treatment accessible to many.</p>
-                        </div> 
-                        <div class="footer-col-3">
-                            <h3>Useful links</h3>
-                            <ul>
-                                <li>Coupons</li>
-                                <li>Blog Post</li>
-                                <li>Return Policy</li>
-                                <li>Joint Affiliate</li>
-                            </ul>
-                        </div>
-                        <div class="footer-col-4">
-                            <h3>Follow us</h3>
-                            <ul>
-                            <li>Facebook</li>
-                            <li>Twitter</li>
-                            <li>Instagram</li>
-                            <li>Youtube</li>
-                            </ul>
+        <div class="footer">
+            <div class="container">   
+                <div class="row">
+                    <div class="footer-col-1">
+                        <h3>Download our app</h3>
+                        <p>Download App for Android and IOS.</p>
+                        <div class="app-logo">
+                            <img src="{% static 'images/play-store.jpeg' %}">
+                            <img src="{% static 'images/app-store.jpeg' %}">
                         </div>
                     </div>
-                    <hr>
-                    <p class="copyright">Copyright 2020</p>
-                    </hr>
+                    <div class="footer-col-2">
+                        <img src="{% static 'images/logo.jpeg' %}">
+                        <p>Our purpose is to sustainably make the Accessability and Affordability of Treatment accessible to many.</p>
+                    </div> 
+                    <div class="footer-col-3">
+                        <h3>Useful links</h3>
+                        <ul>
+                            <li>Coupons</li>
+                            <li>Blog Post</li>
+                            <li>Return Policy</li>
+                            <li>Joint Affiliate</li>
+                        </ul>
+                    </div>
+                    <div class="footer-col-4">
+                        <h3>Follow us</h3>
+                        <ul>
+                        <li>Facebook</li>
+                        <li>Twitter</li>
+                        <li>Instagram</li>
+                        <li>Youtube</li>
+                        </ul>
+                    </div>
                 </div>
-                </div>
-        </footer>
+                <hr>
+                <p class="copyright">Copyright 2020</p>
+                </hr>
+            </div>
+            </div>
    </body>
 </html>

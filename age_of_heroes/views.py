@@ -27,13 +27,14 @@ def home(request):
             return HttpResponse("Oh Shit bruh, something's wrong!")
 
 
-@login_required(login_url='/login')
+#@login_required(login_url='/login')
 def patient_book_appointment(request):
-    patient = PatientProfile.objects.get(user=request.user)
+    #patient = PatientProfile.objects.get(user=request.user)
+    '''
     if Appointment.objects.filter(patient=patient, status='pending').exists():
         messages.info(request, 'You already have an appointment pending. If you want to change the appointment, cancel the older appointment first and book a new one.')
         return redirect('/appointment_booked_patient')
-    
+    '''
     if request.method == 'POST':
         doctor_id = request.POST['doctor_id']
         date = request.POST['date']
@@ -411,8 +412,7 @@ def search_profile(request):
     if request.user.groups.filter(name="administrative_staff_user").exists():
         return render(request,'age_of_heroes/search-profile.html')
     else:
-       return HttpResponse("you don't have access to this form" )
-
+        return HttpResponse("you don't have access to this form" )
 
 
 @login_required(login_url='/login')
@@ -520,3 +520,35 @@ def edit_profiles(request):
     else:
         return HttpResponse("you are not allowed to access the page")
 
+
+@login_required(login_url='/login')
+def edit_staff_profile(request):
+    #if request.user.groups.filter(name="administrative_staff_user").exists():
+    if StaffProfile.objects.filter(user=request.user).exists():
+        staff_details = StaffProfile.objects.get(user=request.user)
+        print(staff_details.date_of_birth)
+        return render(request, "age_of_heroes/edit-staff-profile.html", context={'staff_details': staff_details})
+    
+    
+    elif request.method=='GET':
+        if StaffProfile.objects.filter(user=request.user).exists():
+            staff_details = StaffProfile.objects.get(user=request.user)
+            return render(request,'age_of_heroes/edit-staff-profile.html', context={'staff_details' : staff_details})
+        else:
+            messages.info(request, "the account you search for doesn't exist")
+            return redirect("/search-profile")
+
+    
+    '''
+    elif StaffProfile.objects.filter(user=request.user).exists():
+        if request.method=='GET':
+            q=request.GET.get('search_term')
+            if StaffProfile.objects.filter(staff_id=q).exists():
+                p = StaffProfile.objects.filter(staff_id=q)[0]
+                u = p.user
+                messages.info(request,"you searched for "+p.staff_full_name)
+                return render(request,'age_of_heroes/edit-staff-profile.html',context={'staff_details' : p,'user' : u})
+            else:
+                messages.info(request, "the account you search for doesn't exist")
+                return redirect("/search-profile")
+    '''

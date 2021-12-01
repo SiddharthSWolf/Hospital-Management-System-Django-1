@@ -4,7 +4,10 @@ function redir(){
     var a = document.getElementById("1");
     a.click();
   } if(document.getElementById('org-acc').checked) {
-    var a = document.getElementById("1");
+    var a = document.getElementById("2");
+    a.click();
+  } if(document.getElementById('doc-acc').checked) {
+    var a = document.getElementById("3d");
     a.click();
   }
 }

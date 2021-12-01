@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
    <head>
-      <title>Team 10 - HMS</title>
+      <title>Team 4</title>
       <link rel="stylesheet" href="{% static 'css/style.css' %}">
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" >
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -59,7 +59,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
-                        <h2>Administrative Staff Registration</h2>
+                        <h2>Edit Profile Details</h2>
                     </div>
                 </div>
                 <div id="ErrorMessage">
@@ -73,15 +73,12 @@
                     <div class="col-md-6">
                             {% csrf_token %}
                             <div class="form-group">
-                                <input type="text" class="form-control" name="first_name" placeholder="First Name" value="{{user.first_name}}" >
-                             </div>
-                             <div class="form-group">
-                                <input type="text" class="form-control" name="last_name" placeholder="Last Name" value="{{user.last_name}}" >
+                                <input type="text" class="form-control" name="Name" placeholder="First Name" value="{{staff_details.staff_full_name}}" >
                              </div>
                         
                             <div class="form-group">
                                 date of birth :{{staff_details.date_of_birth}}
-                                <input placeholder = "Date of Birth" name="date_of_birth" class = "form-control" type = "date"  id = "date">
+                                <input placeholder = "Date of Birth" name="date_of_birth" class = "form-control" type = "date"  id = "bdate"  value="{{staff_details.date_of_birth}}" onfocus = "(this.type = 'date')">
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control" name="blood_group" placeholder="Blood-Group" value="{{staff_details.blood_group}}">
@@ -112,7 +109,7 @@
                         
                             <div class="form-group">
                                 date joined: {{staff_details.date_joined}}
-                                <input placeholder = "Date of Joining" name="date_of_joining" class = "form-control" type = "date" id = "date">
+                                <input placeholder = "Date of Joining" name="date_of_joining" class = "form-control" type = "date" id = "jdate" value="{{staff_details.date_joined}}" onfocus = "(this.type = 'date')">
                             </div>
                             <div class="form-group">
                                 <input type="text" class="form-control" name="qualification" placeholder="Qualification" value="{{staff_details.qualification}}">
@@ -124,7 +121,7 @@
                         
                             <div class="col-md-6 contact info">
                                 
-                                <button type="submit" form="staff-register-form" class="btn btn-primary">Edit Staff Profile</button>
+                                <button type="submit" form="staff-register-form" class="btn btn-primary" id="save">Save Profile</button>
 
                             </div>
                         
@@ -174,5 +171,15 @@
                 </hr>
             </div>
             </div>
+
+    <script> 
+        var fetch_bdate = "{{staff_details.date_of_birth}}";
+        console.log(fetch_bdate);
+        
+        var newDate = new Date(fetch_bdate);
+        var newDate2 = fetch_bdate.toISOString();
+
+        console.log(newDate2);
+    </script>
    </body>
 </html>
