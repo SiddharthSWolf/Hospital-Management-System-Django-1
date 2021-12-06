@@ -59,7 +59,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-6">
-                        <h2>Edit Profile Details</h2>
+                        <h2>Search Profile</h2>
                     </div>
                 </div>
                 <div id="ErrorMessage">
@@ -68,67 +68,34 @@
                     {% endfor %}
                  </div>
 
-                <form class="staff-register-form" action = "/edit-profiles" method="POST" id="staff-register-form" enctype="multipart/form-data">
-                    <div class="row">
+                <form class="staff-register-form" action = "/edit-profiles" method="POST" id="search_d_form" enctype="multipart/form-data">
+                    <div class="col">
                     <div class="col-md-6">
-                            {% csrf_token %}
+                        {% csrf_token %}
                             <div class="form-group">
-                                <input type="text" class="form-control" name="Name" placeholder="First Name" value="{{staff_details.staff_full_name}}" >
-                             </div>
-                        
-                            <div class="form-group">
-                                date of birth :{{staff_details.date_of_birth}}
-                                <!--
-                                <input placeholder = "Date of Birth" name="date_of_birth" class = "form-control" type = "date"  id = "bdate"  value="{{staff_details.date_of_birth}}" onfocus = "(this.type = 'date')">
-                                -->
+                                <input type="text" class="form-control" name="location" placeholder="Location" value="" >
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" name="blood_group" placeholder="Blood-Group" value="{{staff_details.blood_group}}">
+                                <input type="text" class="form-control" name="blood_group" placeholder="Blood-Group" value="">
                             </div>
-                            <div class="form-group">
-                                <input type="number" class="form-control" name="age" placeholder="Age" value="{{staff_details.age}}">
+                            <div class="col-md-6 contact info">
+                                <button type="submit" form="staff-register-form" class="btn btn-primary" id="save">Search</button>
                             </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="gender" placeholder="Gender" value="{{staff_details.gender}}">
-                            </div>
-                            <div class="form-group">
-                                <input type="email" class="form-control" name="email" placeholder="Email ID" value="{{user.email}}" readonly>
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="contact_number" placeholder="Contact number" value="{{staff_details.phone_number}}">
-                            </div>  
-                            
+                        <br><br>
                     </div>
                     
-                    <div class="col-md-6 contact info">
-                            <div class="form-group">
-                                <label for="img">Select Profile Photo:</label>
-                                {% if patient_details.profile_picture %}
-                                <img src="{{staff_details.profile_picture.url}}" width="200" height="150" alt="You should have seen your picture here">
-                                {% endif %}
-                                <input type="file" id="img" name="image" accept="image/*">
-                            </div> 
-                        
-                            <div class="form-group">
-                                date joined: {{staff_details.date_joined}}
-                                <!--
-                                <input placeholder = "Date of Joining" name="date_of_joining" class = "form-control" type = "date" id = "jdate" value="{{staff_details.date_joined}}" onfocus = "(this.type = 'date')">
-                                -->
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="qualification" placeholder="Qualification" value="{{staff_details.qualification}}">
-                            </div>
-                            
-                            <div class="form-group">
-                                <textarea class="form-control" rows="3" name="address" placeholder="Address">{{staff_details.address}}</textarea>
-                            </div>
-                        
-                            <div class="col-md-6 contact info">
-                                
-                                <button type="submit" form="staff-register-form" class="btn btn-primary" id="save">Save Profile</button>
-
-                            </div>
-                        
+                    <div class="col-md-6 contact info row">
+                        <div class="col-md-6">
+                            <h2>Search Results</h2>
+                        </div>
+                        <div class="form-group row">
+                                <input type="text" class="form-control" name="f_number" placeholder="No." value="{{ i }}" disabled>
+                                <input type="text" class="form-control" name="f_blood_group" placeholder="Blood-Group" value="" disabled>
+                                <input type="text" class="form-control" name="f_name" placeholder="userName" value="" disabled>
+                                <input type="text" class="form-control" name="f_mobile" placeholder="mobile" value="" disabled>
+                                <input type="text" class="form-control" name="f_location" placeholder="locaion" value="" disabled>
+                                <br>
+                        </div>
                     </div>
                 </div>
                 <!-- </div> -->

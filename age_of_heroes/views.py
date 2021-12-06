@@ -206,6 +206,7 @@ def appointment_pending_doctor(request):
     
 @login_required(login_url='/login')
 def staff_book_appointment(request):
+    staff_details = StaffProfile.objects.get(user=request.user)
     if request.method == 'POST':
         patient_id = request.POST['patient_id']
         patient_email = request.POST['email']
@@ -259,10 +260,10 @@ def staff_book_appointment(request):
                     break
             else:
                 messages.info(request, 'No doctor is free today, contact the receptionists for more details.')
-                return redirect('staff_book_appointment')
+                return redirect('staff_book_appointment', context={'staff_details': staff_details})
             
             messages.info(request, 'Appointment Booked Successfully!')
-            return redirect('/staff_book_appointment')     
+            return redirect('/staff_book_appointment', context={'staff_details': staff_details})     
            
         else:
             doctor = DoctorProfile.objects.get(doctor_id=doctor_id)
@@ -297,9 +298,9 @@ def staff_book_appointment(request):
                 email.send()
                 
             messages.info(request, 'Appointment Booked Successfully!')
-            return redirect('/staff_book_appointment')
+            return redirect('/staff_book_appointment', context={'staff_details': staff_details})
     else:
-        return render(request, 'age_of_heroes\AS-Appointment.html')
+        return render(request, 'age_of_heroes\AS-Appointment.html', context={'staff_details': staff_details})
     
     
 def cancel_appointment_staff(request):
@@ -336,7 +337,7 @@ def cancel_appointment_staff(request):
     if len(appointments) == 0:
         appointments = None
             
-    return render(request, 'age_of_heroes\cancel_appointment_staff.html', context={'appointments' : appointments})
+    return render(request, 'age_of_heroes\cancel_a````````````````````````````````````````ppointment_staff.html', context={'appointments' : appointments})
 
 
 # Create your views here.
@@ -409,7 +410,8 @@ def patient_diagnosis(request):
 
 @login_required(login_url='/login')
 def search_profile(request):
-    if request.user.groups.filter(name="administrative_staff_user").exists():
+    #if request.user.groups.filter(name="administrative_staff_user").exists():
+    if StaffProfile.objects.filter(user=request.user).exists():
         return render(request,'age_of_heroes/search-profile.html')
     else:
         return HttpResponse("you don't have access to this form" )
@@ -499,12 +501,12 @@ def edit_profiles(request):
                 u.last_name = request.POST['last_name']
                 s.staff_full_name = request.POST['first_name'] + ' ' + request.POST['last_name']
                 
-                s.date_of_birth = request.POST['date_of_birth'] if request.POST['date_of_birth'] != '' else dob
+                #s.date_of_birth = request.POST['date_of_birth'] if request.POST['date_of_birth'] != '' else dob
                 s.blood_group = request.POST['blood_group']
                 s.age = request.POST['age'] if request.POST['age'] != '' else None
                 s.phone_number = request.POST['contact_number']
                 s.profile_pic = request.FILES.get('image')
-                s.date_joined = request.POST['date_of_joining'] if request.POST['date_of_joining'] != '' else doj
+                #s.date_joined = request.POST['date_of_joining'] if request.POST['date_of_joining'] != '' else doj
                 s.qualification = request.POST['qualification']
                 s.address = request.POST['address']
                 s.gender = request.POST['gender']
@@ -529,7 +531,43 @@ def edit_staff_profile(request):
         print(staff_details.date_of_birth)
         return render(request, "age_of_heroes/edit-staff-profile.html", context={'staff_details': staff_details})
     
+    elif request.method=='POST':
+        '''
+        email=request.POST.get('email')
+        u=User.objects.get(email=email)
+        '''
+        email=request.POST.get('email')
+        try:
+            u=User.objects.get(email=email)
+        except User.MultipleObjectsReturned:
+            u=User.objects.filter(email=email)[0]
+        
+        if StaffProfile.objects.filter(user=u).exists():
+            s = StaffProfile.objects.get(user=u).first()
+            dob=s.date_of_birth
+            doj=s.date_joined
+            
+            u.first_name = request.POST['first_name']
+            u.last_name = request.POST['last_name']
+            s.staff_full_name = request.POST['first_name'] + ' ' + request.POST['last_name']
+            
+            #s.date_of_birth = request.POST['date_of_birth'] if request.POST['date_of_birth'] != '' else dob
+            s.blood_group = request.POST['blood_group']
+            s.age = request.POST['age'] if request.POST['age'] != '' else None
+            s.phone_number = request.POST['contact_number']
+            s.profile_pic = request.FILES.get('image')
+            #s.date_joined = request.POST['date_of_joining'] if request.POST['date_of_joining'] != '' else doj
+            s.qualification = request.POST['qualification']
+            s.address = request.POST['address']
+            s.gender = request.POST['gender']
+                
+            u.save()
+            s.save()
+
+            messages.info(request, "the profile is updated sucessfully")
+            return render(request, 'age_of_heroes/search-profile.html')
     
+    '''
     elif request.method=='GET':
         if StaffProfile.objects.filter(user=request.user).exists():
             staff_details = StaffProfile.objects.get(user=request.user)
@@ -537,7 +575,7 @@ def edit_staff_profile(request):
         else:
             messages.info(request, "the account you search for doesn't exist")
             return redirect("/search-profile")
-
+    '''
     
     '''
     elif StaffProfile.objects.filter(user=request.user).exists():

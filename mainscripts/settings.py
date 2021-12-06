@@ -135,9 +135,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, '')
 # LOGIN_URL = '/login'
 
 ###### SMTP Email Configurations ######
-EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'gokulraamofficial@gmail.com'               #Email Here
-EMAIL_HOST_PASSWORD = ''           #Password Here
-EMAIL_PORT = 587
+# EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER = 'gokulraamofficial@gmail.com'               #Email Here
+# EMAIL_HOST_PASSWORD = ''           #Password Here
+# EMAIL_PORT = 587

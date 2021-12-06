@@ -22,4 +22,5 @@ urlpatterns = [
 
     #profile
     path('donor_profile/', views.patient_profile, name='patient_profile'),
+    path('search_d', views.search_d, name='search_d'),
 ]

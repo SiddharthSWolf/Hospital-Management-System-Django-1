@@ -8,6 +8,7 @@ class Appointment(models.Model):
     doctor = models.ForeignKey(DoctorProfile, related_name='doctor', on_delete=models.CASCADE)
     patient = models.ForeignKey(PatientProfile, related_name='patient', on_delete=models.CASCADE)
     date = models.DateField()
+    blood_group = models.CharField(max_length=10, blank=True, null=True)
     expected_time = models.TimeField()
     token_number = models.CharField(max_length=20)
     token_id = models.CharField(max_length=20)

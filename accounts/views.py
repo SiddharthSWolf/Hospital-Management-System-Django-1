@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
+
+from age_of_heroes.models import Appointment
 from .models import *
 from django.contrib import messages
 from django.http import HttpResponse
@@ -14,7 +16,7 @@ from .tokens import account_activation_token
 from django.core.mail import EmailMessage
 from django.contrib.auth.decorators import login_required
 # Create your views here.
-
+import datetime
 
 def login(request):
     if request.user.is_authenticated:
@@ -43,7 +45,6 @@ def login(request):
                 return redirect('login')
         else:
             return render(request, 'accounts/login.html')
-
 
 def register(request):
     if request.user.is_authenticated:
@@ -109,8 +110,10 @@ def register_staff(request):
                 username = "ST10STA" + str(counter)
                 counter += 1
 
-            password = User.objects.make_random_password(
-                6, string.ascii_lowercase)
+            # password = User.objects.make_random_password(
+                # 6, string.ascii_lowercase)?
+
+            password = '00000000'
 
             user = User.objects.create_user(
                 username=username, email=email, password=password, first_name=first_name, last_name=last_name)
@@ -139,34 +142,37 @@ def register_staff(request):
             user.groups.add(staff_group)
             user.save()
 
-            current_site = get_current_site(request)
-            mail_subject = 'Activate your HMS account.'
-            message = render_to_string('accounts/activation_email.html', {
-                'user': user,
-                'username': username,
-                'password': password,
-                'domain': current_site.domain,
-            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-            'token': account_activation_token.make_token(user),
-            })
-            email = EmailMessage(
-                mail_subject, message, to=[email]
-                )
-            email.content_subtype = 'html'
-            email.send()
+            # current_site = get_current_site(request)
+            # mail_subject = 'Activate your HMS account.'
+            # message = render_to_string('accounts/activation_email.html', {
+            #     'user': user,
+            #     'username': username,
+            #     'password': password,
+            #     'domain': current_site.domain,
+            # 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            # 'token': account_activation_token.make_token(user),
+            # })
+            # email = EmailMessage(
+            #     mail_subject, message, to=[email]
+            #     )
+            # email.content_subtype = 'html'
+            # email.send()
 
             messages.info(
-                request, "New Staff Profile has been created successfully. Activation Email Has been sent.")
+                request, "New Staff Profile has been created successfully")
             return redirect('/register-staff/')
 
         else:
             return HttpResponse("You do not have access to this submit this form")
 
     else:
+        '''
         if request.user.is_authenticated:
             return redirect('/')
         else:
             return render(request, 'accounts\AS-reg.html')
+        '''
+        return render(request, 'accounts\AS-reg.html')
 
 # @login_required(login_url='/login')
 
@@ -199,12 +205,13 @@ def register_patient(request):
                 username = "ST10STA" + str(counter)
                 counter += 1
                 
-            password = User.objects.make_random_password(6, string.ascii_lowercase)
+            # password = User.objects.make_random_password(6, string.ascii_lowercase)
+            password = '00000000'
             
             user=User.objects.create_user(username=username,email=email,password=password,first_name=first_name,last_name=last_name)
             user.save()
-            user.is_active = False
-            user.save()
+            # user.is_active = False
+            # user.save()
             print(username, password)
             
             print(profile_pic)
@@ -227,23 +234,23 @@ def register_patient(request):
             user.groups.add(staff_group)
             user.save()
             
-            current_site = get_current_site(request)
-            mail_subject = 'Activate your HMS account.'
-            message = render_to_string('accounts/activation_email.html', {
-            'user': user,
-            'username': username,
-            'password': password,
-            'domain': current_site.domain,
-            'uid':urlsafe_base64_encode(force_bytes(user.pk)),
-            'token':account_activation_token.make_token(user),
-            })
-            email = EmailMessage(
-                    mail_subject, message, to=[email]
-                    )
-            email.content_subtype = 'html'
-            email.send()
+            # current_site = get_current_site(request)
+            # mail_subject = 'Activate your HMS account.'
+            # message = render_to_string('accounts/activation_email.html', {
+            # 'user': user,
+            # 'username': username,
+            # 'password': password,
+            # 'domain': current_site.domain,
+            # 'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+            # 'token':account_activation_token.make_token(user),
+            # })
+            # email = EmailMessage(
+            #         mail_subject, message, to=[email]
+            #         )
+            # email.content_subtype = 'html'
+            # email.send()
             
-            messages.info(request, "New Staff Profile has been created successfully. Activation Email Has been sent.")
+            messages.info(request, "New Staff Profile has been created successfully")
             return redirect('/register-staff/')
             
         else:
@@ -251,16 +258,20 @@ def register_patient(request):
         return redirect('/register-staff/')
 
     else:
+        '''
         if request.user.is_authenticated:
             return redirect('/')
         else:
             return render(request, 'accounts\Patient-reg.html')
+        '''
+        return render(request, 'accounts\Patient-reg.html')
 
 
 # @login_required(login_url='/login')
 def register_doctor(request):
     if request.method == 'POST':
-        if request.user.groups.filter(name="administrative_staff_user").exists():
+        #if request.user.groups.filter(name="administrative_staff_user").exists():
+        if StaffProfile.objects.filter(user=request.user).exists():
             email = request.POST['email']
             if User.objects.filter(email=email).exists():
                 messages.info(request,'Account with the given email already exists, please try to login instead.')
@@ -284,11 +295,10 @@ def register_doctor(request):
                 username = "ST10DOC" + str(counter)
                 counter += 1
                 
-            password = User.objects.make_random_password(6, string.ascii_lowercase)
+            # password = User.objects.make_random_password(6, string.ascii_lowercase)
+            password = '00000000'
             
             user=User.objects.create_user(username=username,email=email,password=password,first_name=first_name,last_name=last_name)
-            user.save()
-            user.is_active = False
             user.save()
             print(username, password)
             
@@ -312,32 +322,35 @@ def register_doctor(request):
             user.groups.add(doctor_group)
             user.save()
             
-            current_site = get_current_site(request)
-            mail_subject = 'Activate your HMS account.'
-            message = render_to_string('accounts/activation_email.html', {
-            'user': user,
-            'username': username,
-            'password': password,
-            'domain': current_site.domain,
-            'uid':urlsafe_base64_encode(force_bytes(user.pk)),
-            'token':account_activation_token.make_token(user),
-            })
-            email = EmailMessage(
-                    mail_subject, message, to=[email]
-                    )
-            email.content_subtype = 'html'
-            email.send()
+            # current_site = get_current_site(request)
+            # mail_subject = 'Activate your HMS account.'
+            # message = render_to_string('accounts/activation_email.html', {
+            # 'user': user,
+            # 'username': username,
+            # 'password': password,
+            # 'domain': current_site.domain,
+            # 'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+            # 'token':account_activation_token.make_token(user),
+            # })
+            # email = EmailMessage(
+            #         mail_subject, message, to=[email]
+            #         )
+            # email.content_subtype = 'html'
+            # email.send()
             
-            messages.info(request, "New Doctor Profile has been created successfully. Activation Email Has been sent.")
+            messages.info(request, "New Doctor Profile has been created successfully")
             return redirect('/register-staff/')
             
         else:
             return HttpResponse("You do not have access to this submit this form")
     else:
+        '''
         if request.user.is_authenticated:
             return redirect('/')
         else:
             return render(request, 'accounts\Doc-reg.html')
+        '''
+        return render(request, 'accounts\Doc-reg.html')
 
 
 def activate(request, uidb64, token, backend='django.contrib.auth.backends.ModelBackend'):
@@ -357,3 +370,40 @@ def activate(request, uidb64, token, backend='django.contrib.auth.backends.Model
 
 def patient_profile(request):
     return render(request, 'accounts\Patient-profile.html')
+
+def search_d(request):
+    if request.method == 'POST':
+
+        #if request.user.groups.filter(name="administrative_staff_user").exists():
+        if StaffProfile.objects.filter(user=request.user).exists():
+            #return HttpResponse("No")
+            '''
+            location = request.POST.get('location')
+            blood_group = request.POST.get('blood_group')
+            print(location)
+            print(blood_group)
+            donor = PatientProfile.objects.all() 
+            '''
+            '''
+            req_blood = "O+ve"
+            for i in donor:
+                if donor.objects.blood_type == req_blood :
+                    print("yes")
+            #print(donor)
+            '''
+            apt = Appointment.objects.all()
+            return render(request, 'accounts\search.html',)
+        else:
+            return HttpResponse("No")
+    else:
+        '''
+        if request.user.is_authenticated:
+            return redirect('/')
+        else:
+            return render(request, 'accounts\Doc-reg.html')
+        '''
+        donor = PatientProfile.objects.all() 
+        print(donor)
+        return render(request, 'accounts\search.html', {'donor':donor})
+        return render(request, 'accounts\search.html')
+    return render(request, 'accounts\search.html')
