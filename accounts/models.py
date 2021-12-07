@@ -21,7 +21,7 @@ class DoctorProfile(models.Model):
         verbose_name = 'Employee Profile'
         verbose_name_plural = 'Employee Profile'
     
-     
+    
 class PatientProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     patient_id = models.CharField(max_length=20, unique=True)

@@ -183,7 +183,7 @@ def register_patient(request):
             email = request.POST['email']
             if User.objects.filter(email=email).exists():
                 messages.info(request,'Account with the given email already exists, please try to login instead.')
-                return redirect('register_staff')
+                return redirect('register_patient')
             first_name = request.POST['first_name']
             last_name = request.POST['last_name']
             full_name = first_name + " " + last_name
@@ -195,12 +195,13 @@ def register_patient(request):
             contact_number = request.POST['contact_number']
             profile_pic = request.FILES.get('image')
             date_of_joining = request.POST['date_of_joining'] if request.POST['date_of_joining'] != '' else None
-            qualification = request.POST['qualification']
+            #qualification = request.POST['qualification']
             address = request.POST['address']
             gender = request.POST['gender']
+            diagnosis = request.POST['diagnosis']
             
             counter = 1
-            username = "ST10STA1"
+            username = "ST10PAT1"
             while User.objects.filter(username=username):
                 username = "ST10STA" + str(counter)
                 counter += 1
@@ -215,23 +216,24 @@ def register_patient(request):
             print(username, password)
             
             print(profile_pic)
-            staff_profile = StaffProfile(
+            patient_profile = PatientProfile(
                 user=user,
-                staff_id=username,
-                staff_full_name = full_name,
+                patient_id=username,
+                patient_full_name = full_name,
                 profile_picture = profile_pic,
-                date_joined = date_of_joining,
-                qualification = qualification,
+                accepted_date = date_of_joining,
                 date_of_birth = date_of_birth,
                 gender = gender,
                 age = age,
                 blood_group = blood_group,
                 address = address,
-                phone_number = contact_number)
-            staff_profile.save()
+                diagnosis = diagnosis,
+                phone_number = contact_number
+                ),
+            patient_profile.save()
             
-            staff_group = Group.objects.get(name='administrative_staff_user')
-            user.groups.add(staff_group)
+            #staff_group = Group.objects.get(name='administrative_staff_user')
+            #user.groups.add(staff_group)
             user.save()
             
             # current_site = get_current_site(request)
@@ -250,8 +252,8 @@ def register_patient(request):
             # email.content_subtype = 'html'
             # email.send()
             
-            messages.info(request, "New Staff Profile has been created successfully")
-            return redirect('/register-staff/')
+            messages.info(request, "New Donnor Profile has been created successfully")
+            return redirect('/register-patient/')
             
         else:
             return HttpResponse("You do not have access to this submit this form")
@@ -371,39 +373,41 @@ def activate(request, uidb64, token, backend='django.contrib.auth.backends.Model
 def patient_profile(request):
     return render(request, 'accounts\Patient-profile.html')
 
+'''
 def search_d(request):
     if request.method == 'POST':
 
         #if request.user.groups.filter(name="administrative_staff_user").exists():
         if StaffProfile.objects.filter(user=request.user).exists():
             #return HttpResponse("No")
-            '''
-            location = request.POST.get('location')
-            blood_group = request.POST.get('blood_group')
-            print(location)
-            print(blood_group)
-            donor = PatientProfile.objects.all() 
-            '''
-            '''
-            req_blood = "O+ve"
-            for i in donor:
-                if donor.objects.blood_type == req_blood :
-                    print("yes")
+
+            #location = request.POST.get('location')
+            #blood_group = request.POST.get('blood_group')
+            #print(location)
+            #print(blood_group)
+            #donor = PatientProfile.objects.all() 
+
+            #req_blood = "O+ve"
+            #for i in donor:
+            #    if donor.objects.blood_type == req_blood :
+            #        print("yes")
             #print(donor)
-            '''
             apt = Appointment.objects.all()
             return render(request, 'accounts\search.html',)
         else:
             return HttpResponse("No")
     else:
-        '''
-        if request.user.is_authenticated:
-            return redirect('/')
-        else:
-            return render(request, 'accounts\Doc-reg.html')
-        '''
+
         donor = PatientProfile.objects.all() 
         print(donor)
         return render(request, 'accounts\search.html', {'donor':donor})
         return render(request, 'accounts\search.html')
     return render(request, 'accounts\search.html')
+'''
+
+def search_d(request):
+    if request.method == 'POST':
+        if StaffProfile.objects.filter(user=request.user).exists():
+            return HttpResponse("No")
+    else:
+        return render(request, 'accounts\search.html')
