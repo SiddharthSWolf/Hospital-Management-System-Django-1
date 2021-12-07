@@ -203,7 +203,7 @@ def register_patient(request):
             counter = 1
             username = "ST10PAT1"
             while User.objects.filter(username=username):
-                username = "ST10STA" + str(counter)
+                username = "ST10PAT" + str(counter)
                 counter += 1
                 
             # password = User.objects.make_random_password(6, string.ascii_lowercase)
@@ -229,7 +229,7 @@ def register_patient(request):
                 address = address,
                 diagnosis = diagnosis,
                 phone_number = contact_number
-                ),
+                )
             patient_profile.save()
             
             #staff_group = Group.objects.get(name='administrative_staff_user')
@@ -373,41 +373,17 @@ def activate(request, uidb64, token, backend='django.contrib.auth.backends.Model
 def patient_profile(request):
     return render(request, 'accounts\Patient-profile.html')
 
-'''
 def search_d(request):
     if request.method == 'POST':
+        #if StaffProfile.objects.filter(user=request.user).exists():
+        location    = request.POST.get['location']
+        blood_group = request.POST.get['blood_group']
 
-        #if request.user.groups.filter(name="administrative_staff_user").exists():
-        if StaffProfile.objects.filter(user=request.user).exists():
-            #return HttpResponse("No")
-
-            #location = request.POST.get('location')
-            #blood_group = request.POST.get('blood_group')
-            #print(location)
-            #print(blood_group)
-            #donor = PatientProfile.objects.all() 
-
-            #req_blood = "O+ve"
-            #for i in donor:
-            #    if donor.objects.blood_type == req_blood :
-            #        print("yes")
-            #print(donor)
-            apt = Appointment.objects.all()
-            return render(request, 'accounts\search.html',)
-        else:
-            return HttpResponse("No")
-    else:
-
-        donor = PatientProfile.objects.all() 
-        print(donor)
-        return render(request, 'accounts\search.html', {'donor':donor})
+        messages.info(
+                    request, 
+                    "hello there"
+                    )
         return render(request, 'accounts\search.html')
-    return render(request, 'accounts\search.html')
-'''
-
-def search_d(request):
-    if request.method == 'POST':
-        if StaffProfile.objects.filter(user=request.user).exists():
-            return HttpResponse("No")
+        
     else:
         return render(request, 'accounts\search.html')
