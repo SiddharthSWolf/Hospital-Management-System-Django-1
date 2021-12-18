@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 
 from age_of_heroes.models import Appointment
+import age_of_heroes.models
 from .models import *
 from django.contrib import messages
 from django.http import HttpResponse
@@ -376,14 +377,28 @@ def patient_profile(request):
 def search_d(request):
     if request.method == 'POST':
         #if StaffProfile.objects.filter(user=request.user).exists():
-        location    = request.POST.get['location']
-        blood_group = request.POST.get['blood_group']
 
+        location    = request.POST['location']
+        blood_group = request.POST['blood_group']
+
+        #checking response// works
+        '''
         messages.info(
-                    request, 
-                    "hello there"
-                    )
-        return render(request, 'accounts\search.html')
+            request, 
+            "hello there"
+        )
+        '''
+        if location == "":
+            profile = PatientProfile.objects.filter(blood_group=blood_group)
+        else:
+            profile =  PatientProfile.objects.filter(address=location, blood_group=blood_group)
+        #context={'profile': profile}
+        print(profile)
+        profile = profile.values
+        status = 1
+        return render(request, 'accounts\search.html', context={'profile': profile, 'status': status})
         
     else:
-        return render(request, 'accounts\search.html')
+        status = 0
+        profile = None
+        return render(request, 'accounts\search.html', context={'profile': profile, 'status': status})
