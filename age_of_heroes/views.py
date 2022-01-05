@@ -145,7 +145,8 @@ def view_appointments_doctor(request):
     if DoctorProfile.objects.filter(user=request.user).exists():
         doctor = DoctorProfile.objects.filter(user=request.user)[0]
         
-        appointments = Appointment.objects.filter(doctor=doctor, status='pending', date=datetime.datetime.today())
+        #appointments = Appointment.objects.filter(doctor=doctor, status='pending', date=datetime.datetime.today())
+        appointments = Appointment.objects.filter(doctor=doctor, status='pending')
         
         
         if len(appointments) == 0:
