@@ -16,6 +16,8 @@ from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from django.core.mail import EmailMessage
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+
 # Create your views here.
 import datetime
 
@@ -82,9 +84,10 @@ def profile(request):
 
 # Registering staff user
 # @login_required(login_url='/login')
+@csrf_exempt
 def register_staff(request):
     if request.method == 'POST':
-        if request.user.groups.filter(name="administrative_staff_user").exists():
+        if request.user.groups.filter(name="administrative_staff_user").exists() or StaffProfile.objects.filter(user=request.user).exists():
             email = request.POST['email']
             if User.objects.filter(email=email).exists():
                 messages.info(
@@ -180,7 +183,7 @@ def register_staff(request):
 
 def register_patient(request):
     if request.method == 'POST':
-        if request.user.groups.filter(name="administrative_staff_user").exists():
+        if request.user.groups.filter(name="administrative_staff_user").exists() or StaffProfile.objects.filter(user=request.user).exists():
             email = request.POST['email']
             if User.objects.filter(email=email).exists():
                 messages.info(request,'Account with the given email already exists, please try to login instead.')
@@ -274,7 +277,7 @@ def register_patient(request):
 def register_doctor(request):
     if request.method == 'POST':
         #if request.user.groups.filter(name="administrative_staff_user").exists():
-        if StaffProfile.objects.filter(user=request.user).exists():
+        if request.user.groups.filter(name="administrative_staff_user").exists() or StaffProfile.objects.filter(user=request.user).exists():
             email = request.POST['email']
             if User.objects.filter(email=email).exists():
                 messages.info(request,'Account with the given email already exists, please try to login instead.')
@@ -390,10 +393,11 @@ def search_d(request):
         '''
         if location == "":
             profile = PatientProfile.objects.filter(blood_group=blood_group)
+        elif blood_group == "":
+            profile =  PatientProfile.objects.filter(address=location)
         else:
             profile =  PatientProfile.objects.filter(address=location, blood_group=blood_group)
         #context={'profile': profile}
-        print(profile)
         profile = profile.values
         status = 1
         return render(request, 'accounts\search.html', context={'profile': profile, 'status': status})

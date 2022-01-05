@@ -104,13 +104,18 @@
                         <br>
                     </div>
                 {% else %}
-                    {% for i in profile %}
+                    {% for profile in profile %}
                         <div class="form-group row">
-                            <input type="text" class="form-control" name="f_number" placeholder="No." value="{{ i }}" disabled>
-                            <input type="text" class="form-control" name="f_blood_group" placeholder="Blood-Group" value=" {{ profile.blood_group.values}}" disabled>
-                            <input type="text" class="form-control" name="f_name" placeholder="userName" value=" {{ profile.patient_full_name.values }} " disabled>
-                            <input type="text" class="form-control" name="f_mobile" placeholder="mobile" value=" {{ profile.phone_number.values }} " disabled>
-                            <input type="text" class="form-control" name="f_location" placeholder="locaion" value="{{ profile.address.values }}" disabled>
+                            <input type="text" class="form-control" name="f_number" placeholder="No."
+                                value="No.        : {{ forloop.counter }}" disabled>
+                            <input type="text" class="form-control" name="f_blood_group" placeholder="Blood-Group"
+                                value="Blood Gorup: {{ profile.blood_group}}" disabled>
+                            <input type="text" class="form-control" name="f_name" placeholder="userName" 
+                                value="Name       : {{ profile.patient_full_name }} " disabled>
+                            <input type="text" class="form-control" name="f_mobile" placeholder="mobile" 
+                                value="PhoneNumber: {{ profile.phone_number }} " disabled>
+                            <input type="text" class="form-control" name="f_location" placeholder="location" 
+                                value="Location   : {{ profile.address }}" disabled>
                             <br>
                         </div>
                     {% endfor %}
