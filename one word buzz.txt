@@ -1,0 +1,25 @@
+Existing Soultions:
+1.Blood Donation and Life Saver App:
+Advocates use of gps to send alerts to donors. and otp for doctors to verify authentic donors.
+
+2.Blood Donor Tracking By using GPS:
+Gps to guide the user to blood camps/donations. Notifies about events near donor.
+
+3.BlodR-NCBI:
+Collects information from blood banks and notifies potential donors when low stock in blood banks.
+NCB - National Center for Biotechnology Information.
+
+4.Android Application for Volunteer Blood Donors:
+Target the largest consumer platform to encourage donorship,
+and to collect user data.
+
+5.Application of BlockChain Within Healthcare:
+explains effective data storage using block chain.
+
+6.Preference and features of a blood donation smartphone app: Riyadh:
+Blood donor feedback on what\what not they expect in a 
+blood donor app.
+
+7.Humanizing Voice Assistant: The impact of voice assitant personality
+on users:
+use of personal assistant to positively reinforce app use.
